@@ -42,4 +42,28 @@
 
         for (var i = 0; i < listArray.length; i++) {
           var link = "";
-          if (selectType === "youcontrol
+          if (selectType === "youcontrol") {
+            link = "https://youcontrol.com.ua/search/?q=" + listArray[i].trim();
+          } else if (selectType === "opendatabot") {
+            link = "https://opendatabot.ua/c/" + listArray[i].trim();
+          }
+          generatedLinks += "<p><a href='" + link + "' target='_blank'>" + link + "</a></p>";
+        }
+
+        document.getElementById("generated-links").innerHTML = generatedLinks;
+      }
+
+      // Функція для очистки поля введення
+      function clearInput() {
+        document.getElementById("input-list").value = "";
+        document.getElementById("generated-links").innerHTML = "";
+      }
+
+      // Функція для збереження згенерованих посилань в локальному сховищі
+      function saveLinks() {
+        var generatedLinks = document.getElementById("generated-links").innerHTML;
+        localStorage.setItem("generatedLinks", generatedLinks);
+      }
+    </script>
+  </body>
+</html>
