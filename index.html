@@ -1,53 +1,45 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Перетворення списку у посилання</title>
-	<meta charset="UTF-8">
-	<script>
-		function generateLinks() {
-			var linkType = document.getElementById("linkType").value;
-			var values = document.getElementById("inputList").value.split('\n');
+  <head>
+    <title>Генератор посилань</title>
+  </head>
+  <body>
+    <h1>Генератор посилань</h1>
+    <form>
+      <label for="input-list">Введіть значення списку:</label>
+      <br>
+      <textarea id="input-list" rows="10" cols="50"></textarea>
+      <br>
+      <label for="select-type">Виберіть тип посилання:</label>
+      <select id="select-type">
+        <option value="youcontrol" selected>https://youcontrol.com.ua/search/?q=</option>
+        <option value="opendatabot">https://opendatabot.ua/c/</option>
+      </select>
+      <br>
+      <button type="button" onclick="generateLinks()">Петворити посилання</button>
+      <button type="button" onclick="clearInput()">Очистити поле</button>
+      <button type="button" onclick="saveLinks()">Зберегти посилання</button>
+    </form>
+    <hr>
+    <h2>Згенеровані посилання:</h2>
+    <div id="generated-links"></div>
 
-			var result = "";
-			if (linkType == "youcontrol") {
-				for (var i = 0; i < values.length; i++) {
-					if (values[i].trim() != "") {
-						result += "<a href='https://youcontrol.com.ua/search/?q=" + values[i].trim() + "'>" + (i+1) + ". " + values[i].trim() + "</a><br>";
-					}
-				}
-			} else if (linkType == "opendatabot") {
-				for (var i = 0; i < values.length; i++) {
-					if (values[i].trim() != "") {
-						result += "<a href='https://opendatabot.ua/c/" + values[i].trim() + "?from=search'>" + (i+1) + ". " + values[i].trim() + "</a><br>";
-					}
-				}
-			}
-			document.getElementById("output").innerHTML = result;
-		}
+    <script>
+      // При завантаженні сторінки перевіряємо наявність збережених посилань в локальному сховищі
+      window.onload = function() {
+        var savedLinks = localStorage.getItem("generatedLinks");
+        if (savedLinks !== null) {
+          document.getElementById("generated-links").innerHTML = savedLinks;
+        }
+      };
 
-		function clearInput() {
-			document.getElementById("inputList").value = "";
-		}
-	</script>
-</head>
-<body>
-	<h1>Перетворення списку у посилання</h1>
+      // Функція для генерації посилань
+      function generateLinks() {
+        var inputList = document.getElementById("input-list").value;
+        var selectType = document.getElementById("select-type").value;
+        var listArray = inputList.trim().split("\n");
+        var generatedLinks = "";
 
-	<label for="linkType">Виберіть тип посилання:</label>
-	<select id="linkType">
-		<option value="youcontrol">https://youcontrol.com.ua/search/?q=</option>
-		<option value="opendatabot">https://opendatabot.ua/c/</option>
-	</select>
-	<br><br>
-
-	<label for="inputList">Введіть значення списку:</label>
-	<textarea id="inputList" rows="10" cols="50"></textarea>
-	<br><br>
-
-	<button onclick="generateLinks()">Перетворити на посилання</button>
-	<button onclick="clearInput()">Очистити</button>
-	<br><br>
-
-	<div id="output"></div>
-</body>
-</html>
+        for (var i = 0; i < listArray.length; i++) {
+          var link = "";
+          if (selectType === "youcontrol
